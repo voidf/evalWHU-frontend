@@ -41,6 +41,7 @@ const strings = new LocalizedStrings({
             submitLang: "语言",
 
             confirm: "提交代码",
+            search: "输入关键词搜索...",
 
 
             blocks: {
@@ -98,6 +99,8 @@ const strings = new LocalizedStrings({
             submitLang: "Language",
 
             confirm: "submit code",
+            search: "Search user...",
+
             
             blocks: {
                 description: 'Description',

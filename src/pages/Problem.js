@@ -104,7 +104,7 @@ export default function Problem() {
 
   const [runtimes, setRuntimes] = useState([]);
 
-  const [selectedRuntime, setSelectedRuntime] = useState({pk:'CPP20', label:'CPP20', ace:'c_cpp'});
+  const [selectedRuntime, setSelectedRuntime] = useState({_id:'CPP20', label:'CPP20', ace:'c_cpp'});
 
   const onsetRT = (option) => {
     console.log('new:', option);
@@ -112,7 +112,7 @@ export default function Problem() {
     setSelectedRuntime(option);
   }
 
-  const [selectedLang, setSelectedLang] = useState({pk:'default', label:'Default'});
+  const [selectedLang, setSelectedLang] = useState({_id:'default', label:'Default'});
 
   const { problemId } = useParams();
 
@@ -132,7 +132,7 @@ export default function Problem() {
       is_public: true,
       memory_limit: 131072,
       partial: false,
-      pk: "csu1003",
+      _id: "csu1003",
       short_circuit: true,
       solution_handle: null,
       solution_shown: true,
@@ -179,7 +179,7 @@ export default function Problem() {
     getProblem();
   });
 
-  // const tmp = lang.map((x)=>({pk:x, label:langMap[x]}));
+  // const tmp = lang.map((x)=>({_id:x, label:langMap[x]}));
 
   // console.log('MAPPING:', tmp);
 
@@ -189,16 +189,16 @@ export default function Problem() {
     console.log(editor.getValue());
     console.log({
       source: editor.getValue(),
-      problem_id: problemData.pk,
-      lang: selectedRuntime.pk
+      problem_id: problemData._id,
+      lang: selectedRuntime._id
     });
     console.log(selectedRuntime);
     axios.defaults.headers.common.jwt = jwt.value;
 
     axios.post(U(`/submission/`), {
       source: editor.getValue(),
-      problem_id: problemData.pk,
-      lang: selectedRuntime.pk
+      problem_id: problemData._id,
+      lang: selectedRuntime._id
     }).then(resp=>{
       console.log(resp);
       console.log(resp.data.submission_id);
@@ -224,7 +224,7 @@ export default function Problem() {
         <Stack direction="row" flexWrap="wrap-reverse" alignItems="center" justifyContent="flex-end" sx={{ mb: 5 }}>
           <Stack direction="row" spacing={1} flexShrink={0} sx={{ my: 1 }}>
               <DropdownMenu 
-                itemList={lang.map((x)=>({pk:x, label:langMap[x]}))}
+                itemList={lang.map((x)=>({_id:x, label:langMap[x]}))}
                 hint={LOCALIZATIONPACK.problem.showingLang}
                 selected={selectedLang}
                 setSelected={setSelectedLang}
@@ -232,7 +232,7 @@ export default function Problem() {
           </Stack>
         </Stack>
         <Grid container spacing={3}>
-          {problemData.desc[selectedLang.pk].map((it, index) =>
+          {problemData.desc[selectedLang._id].map((it, index) =>
             (<DescBlock key={index} id={index} head={it.head} body={it.body} type={it.type} />)
           )}
 
@@ -245,7 +245,7 @@ export default function Problem() {
                 <Stack direction="row" flexWrap="wrap-reverse" alignItems="center" justifyContent="flex-end" sx={{ mb: 5 }}>
                 <Stack direction="row" spacing={1} flexShrink={0} sx={{ my: 1, mx: 3 }}>
                     <DropdownMenu 
-                      itemList={runtimes.map((x)=>({pk:x.pk, label:x.name?x.name:x.pk, ace:x.ace?x.ace:"plain_text"}))}
+                      itemList={runtimes.map((x)=>({_id:x._id, label:x.name?x.name:x._id, ace:x.ace?x.ace:"plain_text"}))}
                       hint={LOCALIZATIONPACK.problem.submitLang}
                       selected={selectedRuntime}
                       setSelected={onsetRT}

@@ -47,7 +47,7 @@ const problemstring = LOCALIZATIONPACK.problem;
 
 const TABLE_HEAD = [
   { id: 'status', label: problemstring.status, alignRight: false },
-  { id: 'pk', label: problemstring.code, alignRight: false },
+  { id: '_id', label: problemstring.code, alignRight: false },
   { id: 'title', label: problemstring.title, alignRight: false },
   { id: 'tags', label: problemstring.tags, alignRight: false },
   { id: 'difficulty', label: problemstring.difficulty, alignRight: false },
@@ -267,16 +267,16 @@ export default function ProblemList() {
                 <TableBody>
                   {filteredProblems
                     .map((row) => {
-                      const { pk, title, tags, difficulty, submitted, solved } = row;
+                      const { _id, title, tags, difficulty, submitted, solved } = row;
 
                       return (
                         <TableRow
                           hover
                           style={{cursor:"pointer"}}
-                          key={pk}
+                          key={_id}
                           tabIndex={-1}
                           role="checkbox"
-                          onClick={() => navigate(`/dashboard/problem/${pk}`, { replace: false })}
+                          onClick={() => navigate(`/dashboard/problem/${_id}`, { replace: false })}
                         >
                           <TableCell align="left">
                             {/* <Iconify icon="mdi:check" sx={{ color: 'text.disabled', width: 20, height: 20 }} /> */}
@@ -286,7 +286,7 @@ export default function ProblemList() {
                           <TableCell component="th" scope="row" padding="none" align="left">
                             <Stack direction="row" alignItems="center" spacing={2}>
                               <Typography variant="subtitle2" noWrap>
-                                {pk}
+                                {_id}
                               </Typography>
                             </Stack>
                           </TableCell>
