@@ -31,11 +31,11 @@ const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
 
 UserListToolbar.propTypes = {
   numSelected: PropTypes.number,
-  filterName: PropTypes.string,
-  onFilterName: PropTypes.func,
+  f1: PropTypes.string,
+  of1: PropTypes.func,
 };
 
-export default function UserListToolbar({ numSelected, filterName, onFilterName }) {
+export default function UserListToolbar({ numSelected, f1, of1, f2, of2 }) {
   return (
     <RootStyle
       sx={{
@@ -50,16 +50,28 @@ export default function UserListToolbar({ numSelected, filterName, onFilterName 
           {numSelected} selected
         </Typography>
       ) : (
+        <>
         <SearchStyle
-          value={filterName}
-          onChange={onFilterName}
-          placeholder="Search user..."
+          value={f1}
+          onChange={of1}
+          placeholder="搜索教师名..."
           startAdornment={
             <InputAdornment position="start">
               <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled', width: 20, height: 20 }} />
             </InputAdornment>
           }
         />
+        <SearchStyle
+          value={f2}
+          onChange={of2}
+          placeholder="搜索课程名..."
+          startAdornment={
+            <InputAdornment position="start">
+              <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled', width: 20, height: 20 }} />
+            </InputAdornment>
+          }
+        />
+        </>
       )}
 
       {numSelected > 0 ? (

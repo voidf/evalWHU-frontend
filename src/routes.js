@@ -18,7 +18,8 @@ export default function Router() {
       element: <DashboardLayout />,
       children: [
         { path: 'app', element: <DashboardApp /> },
-        { path: 'blog', element: <Blog /> },
+        { path: 'post', element: <User /> },
+        { path: 'blog', element: <User /> },
       ],
       
     },
@@ -26,7 +27,7 @@ export default function Router() {
       path: '/',
       element: <LogoOnlyLayout />,
       children: [
-        { path: '/', element: <Navigate to="/dashboard/app" /> },
+        { path: '/', element: <Navigate to="/dashboard/blog" /> },
         { path: '404', element: <NotFound /> },
         { path: 'index.html', element: <Navigate to="/dashboard/blog" /> },
         { path: '*', element: <Navigate to="/404" /> },
