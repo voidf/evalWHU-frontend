@@ -1,12 +1,17 @@
 import axios from 'axios';
 
+import * as React from 'react';
 import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
 import { useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { alpha, styled } from '@mui/material/styles';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 // material
 import {
   Box,
@@ -269,8 +274,8 @@ function Cmt({ content, ...props }) {
             <Typography gutterBottom variant="caption" sx={{ color: 'text.secondary', display: 'block' }}>
               {content.intro}
             </Typography>
-            <br/>
-            <br/>
+            <br />
+            <br />
           </>
         )}
         {content.comment && (
@@ -400,8 +405,31 @@ export default function User() {
   const itemClick = (event, item) => {
     if (elem && item._id.$oid === elem._id.$oid) selem(undefined);
     else selem(item);
+    setScroll("paper");
     console.log([event, item]);
   };
+
+  const [scroll, setScroll] = React.useState('paper');
+
+  // const handleClickOpen = (scrollType) => () => {
+  //   setOpen(true);
+  //   setScroll("paper");
+  // };
+
+  const handleClose = () => {
+    // setOpen(false);
+    selem(undefined);
+  };
+
+  const descriptionElementRef = React.useRef(null);
+  React.useEffect(() => {
+    if (elem) {
+      const { current: descriptionElement } = descriptionElementRef;
+      if (descriptionElement !== null) {
+        descriptionElement.focus();
+      }
+    }
+  }, [elem]);
 
   return (
     <Page title="浏览评教">
@@ -410,9 +438,7 @@ export default function User() {
           <Typography variant="h4" gutterBottom>
             浏览评教
           </Typography>
-          {/* <Button variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill" />}>
-            New User
-          </Button> */}
+
         </Stack>
 
         <Card>
@@ -468,61 +494,72 @@ export default function User() {
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
         </Card>
-        {elem && (
-          <Card sx={{ position: 'relative', }}>
+
+        <Dialog
+          open={elem !== undefined}
+          onClose={handleClose}
+          scroll={scroll}
+          aria-labelledby="scroll-dialog-title"
+          aria-describedby="scroll-dialog-description"
+        >
+          <DialogTitle id="scroll-dialog-title">评教详情</DialogTitle>
+          <DialogContent dividers={scroll === 'paper'}>
+            {elem && (
+              <Card sx={{ position: 'relative', minWidth:'35em'}}>
 
 
-            <CardMediaStyle
-              sx={{
-                ...({
-                  pt: 'calc(100% * 4 / 3)',
-                  '&:after': {
-                    top: 0,
-                    content: "''",
-                    width: '100%',
-                    height: '100%',
-                    position: 'absolute',
-                    bgcolor: (theme) => alpha(theme.palette.grey[900], 0.72),
-                  },
-                }),
-                ...(true && {
-                  pt: {
-                    xs: 'calc(100% * 4 / 3)',
-                    sm: 'calc(100% * 1 / 4.66)', // 这里改banner高度
-                  },
-                }),
-              }}
-            >
+                <CardMediaStyle
+                  sx={{
+                    ...({
+                      pt: 'calc(100% * 4 / 3)',
+                      '&:after': {
+                        top: 0,
+                        content: "''",
+                        width: '100%',
+                        height: '100%',
+                        position: 'absolute',
+                        bgcolor: (theme) => alpha(theme.palette.grey[900], 0.72),
+                      },
+                    }),
+                    ...(true && {
+                      pt: {
+                        xs: 'calc(100% * 4 / 3)',
+                        // sm: 'calc(100% * 1 / 4.66)', // 这里改banner高度
+                        sm: 'calc(100% * 2 / 4.66)', // 这里改banner高度
+                      },
+                    }),
+                  }}
+                >
 
-              <SvgIconStyle
-                color="paper"
-                src="/static/icons/shape-avatar.svg"
-                sx={{
-                  width: 80,
-                  height: 36,
-                  zIndex: 9,
-                  bottom: -15,
-                  position: 'absolute',
-                  color: 'background.paper',
-                }}
-              />
+                  <SvgIconStyle
+                    color="paper"
+                    src="/static/icons/shape-avatar.svg"
+                    sx={{
+                      width: 80,
+                      height: 36,
+                      zIndex: 9,
+                      bottom: -15,
+                      position: 'absolute',
+                      color: 'background.paper',
+                    }}
+                  />
 
-              <AvatarStyle
-                alt={elem.teacher}
-                src={'/'}
-                sx={{
-                  zIndex: 9,
-                  top: 24,
-                  left: 24,
-                  width: 40,
-                  height: 40,
-                }}
-              />
+                  <AvatarStyle
+                    alt={elem.teacher}
+                    src={'/'}
+                    sx={{
+                      zIndex: 9,
+                      top: 24,
+                      left: 24,
+                      width: 40,
+                      height: 40,
+                    }}
+                  />
 
 
 
-              <CoverImgStyle alt={'IMG'} src={'/samplebg3.jpg'} />
-              {/* 这种写法可以写进去 */
+                  <CoverImgStyle alt={'IMG'} src={'/samplebg3.jpg'} />
+                  {/* 这种写法可以写进去 */
               /*
                <div sx={{
                 top: 0,
@@ -536,43 +573,50 @@ export default function User() {
 
             </div> */}
 
-            </CardMediaStyle>
-            <NameStyle
-              to="#"
-              color="inherit"
-              variant="subtitle2"
-              underline="hover"
-              component={RouterLink}
-              sx={{
-                typography: 'h5',
-                top: 30,
+                </CardMediaStyle>
+                <NameStyle
+                  to="#"
+                  color="inherit"
+                  variant="subtitle2"
+                  underline="hover"
+                  component={RouterLink}
+                  sx={{
+                    typography: 'h5',
+                    top: 30,
 
-                height: 60,
-                position: 'absolute',
-                color: 'common.white',
-              }}
-            >
-              {elem.teacher}
-            </NameStyle>
-
-
-            <CardContent
-              sx={{
-                pt: 4,
-                ...((true) && {
-                  bottom: 0,
-                  width: '100%',
-                  // height: 'auto',
-                  // position: 'absolute',
-                }),
-              }}
-            >
-              {elem.content.map((i, p) => (<Cmt content={i} />))}
+                    height: 60,
+                    position: 'absolute',
+                    color: 'common.white',
+                  }}
+                >
+                  {elem.teacher}  &nbsp;-&nbsp;  {elem.course}
+                </NameStyle>
 
 
-            </CardContent></Card>
-        )}
+                <CardContent
+                  sx={{
+                    pt: 4,
+                    ...((true) && {
+                      bottom: 0,
+                      width: '100%',
+                      // height: 'auto',
+                      // position: 'absolute',
+                    }),
+                  }}
+                >
+                  {elem.content.map((i, p) => (<Cmt key={p} content={i} />))}
+
+
+                </CardContent>
+              </Card>
+            )}
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>Back</Button>
+            {/* <Button onClick={handleClose}>Subscribe</Button> */}
+          </DialogActions>
+        </Dialog>
       </Container>
-    </Page>
+    </Page >
   );
 }
