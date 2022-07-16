@@ -505,7 +505,7 @@ export default function User() {
           <DialogTitle id="scroll-dialog-title">评教详情</DialogTitle>
           <DialogContent dividers={scroll === 'paper'}>
             {elem && (
-              <Card sx={{ position: 'relative', minWidth:'35em'}}>
+              <Card sx={{ position: 'relative', minWidth:'30em'}}>
 
 
                 <CardMediaStyle
@@ -523,9 +523,9 @@ export default function User() {
                     }),
                     ...(true && {
                       pt: {
-                        xs: 'calc(100% * 4 / 3)',
+                        xs: 'calc(100% * 1 / 3)',
                         // sm: 'calc(100% * 1 / 4.66)', // 这里改banner高度
-                        sm: 'calc(100% * 2 / 4.66)', // 这里改banner高度
+                        sm: 'calc(100% * 1 / 4.66)', // 这里改banner高度
                       },
                     }),
                   }}
